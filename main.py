@@ -1,42 +1,34 @@
-import random
-import string
-from collections import Counter
+def menu():
+    """Основное меню приложения с обработкой ошибок."""
+    global data, result
+    data = ""
+    result = {}
 
+    while True:
+        print("\n1) Ввод данных вручную")
+        print("2) Генерация данных")
+        print("3) Выполнение алгоритма")
+        print("4) Вывод результата")
+        print("0) Завершение работы")
 
-def input_data():
-    """Ввод данных вручную."""
-    global data
-    data = input("Введите текст: ")
+        choice = input("Выберите пункт меню: ")
 
-
-def generate_data():
-    """Генерация случайного текста."""
-    global data
-    length = random.randint(50, 200)
-    data = ''.join(random.choices(string.ascii_letters + string.punctuation + ' ', k=length))
-    print(f"Сгенерированный текст: {data}")
-
-
-def analyze_data(data):
-    """Анализ данных и частотный анализ текста."""
-    total_chars = len(data)
-    if total_chars == 0:
-        return {}
-
-    frequency = Counter(data)
-    frequency_analysis = {char: count / total_chars for char, count in frequency.items()}
-
-    return frequency_analysis
-
-
-def output_result(result):
-    """Вывод результата анализа."""
-    if not result:
-        print("Нет результатов для отображения.")
-        return
-
-    print("Частотный анализ текста:")
-    for char, freq in result.items():
-        print(f"'{char}': {freq:.4f}")
-
-# Основное меню остается без изменений
+        if choice == '1':
+            input_data()
+            result.clear()  # Сбрасываем результаты при вводе новых данных
+        elif choice == '2':
+            generate_data()
+            result.clear()  # Сбрасываем результаты при генерации новых данных
+        elif choice == '3':
+            if not data:
+                print("Ошибка: данные не введены. Пожалуйста, введите данные или сгенерируйте их.")
+                continue
+            result = analyze_data(data)
+            print("Алгоритм выполнен.")
+        elif choice == '4':
+            output_result(result)
+        elif choice == '0':
+            print("Завершение работы программы.")
+            break
+        else:
+            print("Неверный выбор. Попробуйте снова.")
