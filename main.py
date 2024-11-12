@@ -1,45 +1,42 @@
-# main.py
+import random
+import string
+from collections import Counter
+
 
 def input_data():
-    """Заглушка для ввода данных."""
-    pass
+    """Ввод данных вручную."""
+    global data
+    data = input("Введите текст: ")
+
 
 def generate_data():
-    """Заглушка для генерации данных."""
-    pass
+    """Генерация случайного текста."""
+    global data
+    length = random.randint(50, 200)
+    data = ''.join(random.choices(string.ascii_letters + string.punctuation + ' ', k=length))
+    print(f"Сгенерированный текст: {data}")
+
 
 def analyze_data(data):
-    """Заглушка для анализа данных."""
-    return {}
+    """Анализ данных и частотный анализ текста."""
+    total_chars = len(data)
+    if total_chars == 0:
+        return {}
+
+    frequency = Counter(data)
+    frequency_analysis = {char: count / total_chars for char, count in frequency.items()}
+
+    return frequency_analysis
+
 
 def output_result(result):
-    """Заглушка для вывода результата."""
-    pass
+    """Вывод результата анализа."""
+    if not result:
+        print("Нет результатов для отображения.")
+        return
 
-def menu():
-    """Основное меню приложения."""
-    while True:
-        print("1) Ввод данных вручную")
-        print("2) Генерация данных")
-        print("3) Выполнение алгоритма")
-        print("4) Вывод результата")
-        print("0) Завершение работы")
+    print("Частотный анализ текста:")
+    for char, freq in result.items():
+        print(f"'{char}': {freq:.4f}")
 
-        choice = input("Выберите пункт меню: ")
-
-        if choice == '1':
-            input_data()
-        elif choice == '2':
-            generate_data()
-        elif choice == '3':
-            data = "sample text"  # Здесь будет ваша логика
-            result = analyze_data(data)
-        elif choice == '4':
-            output_result(result)
-        elif choice == '0':
-            break
-        else:
-            print("Неверный выбор. Попробуйте снова.")
-
-if __name__ == "__main__":
-    menu()
+# Основное меню остается без изменений
